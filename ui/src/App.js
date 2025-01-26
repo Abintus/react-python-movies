@@ -21,15 +21,23 @@ function App() {
     }, []);
 
     async function handleAddMovie(movie) {
-      const response = await fetch('/movies', {
-        method: 'POST',
-        body: JSON.stringify(movie),
-        headers: { 'Content-Type': 'application/json' }
-      });
-      if (response.ok) {
-        setMovies([...movies, movie]);
-        setAddingMovie(false);
-      }
+          if(movie.year == ""){ alert("Year must not be empty!")} else {
+              if (parseInt(movie.year) > 0) {
+                  movie.year = parseInt(movie.year);
+                  const response = await fetch('/movies', {
+                      method: 'POST',
+                      body: JSON.stringify(movie),
+                      headers: {'Content-Type': 'application/json'}
+                  });
+                  if (response.ok) {
+                      const newMovie = await response.json();
+                      setMovies([...movies, newMovie]);
+                      setAddingMovie(false);
+                  }
+              } else {
+                  alert("Year must be a number!")
+              }
+          }
     }
 
     async function handleDropMovie(movie) {
