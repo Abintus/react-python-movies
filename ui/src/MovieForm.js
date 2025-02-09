@@ -1,4 +1,6 @@
 import {useState} from "react";
+import MoviesList from "./MoviesList";
+import ActorsList from "./ActorsList"
 
 export default function MovieForm(props) {
     const [title, setTitle] = useState('');
@@ -18,6 +20,9 @@ export default function MovieForm(props) {
         setDirector('');
         setDescription('');
     }
+    function handleSelectActor(event){
+        event.preventDefault();
+    }
 
     return <form onSubmit={addMovie}>
         <h2>Add movie</h2>
@@ -36,6 +41,11 @@ export default function MovieForm(props) {
         <div>
             <label>Description</label>
             <textarea value={description} onChange={(event) => setDescription(event.target.value)}/>
+        </div>
+        <div>
+            <ActorsList actors={props.actors}
+                              onSelectActor= {(actor) => handleSelectActor(actor)}
+                />
         </div>
         <button>{props.buttonLabel || 'Submit'}</button>
     </form>;

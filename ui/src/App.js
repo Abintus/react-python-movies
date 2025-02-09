@@ -4,10 +4,13 @@ import "milligram";
 import MovieForm from "./MovieForm";
 import MoviesList from "./MoviesList";
 import {useEffect} from "react";
+import ActorForm from "./ActorForm";
 
 function App() {
     const [movies, setMovies] = useState([]);
     const [addingMovie, setAddingMovie] = useState(false);
+    const [actors, setActors] = useState([])
+    const [addingActor, setAddingActor] = useState(false);
 
     useEffect(() => {
     const fetchMovies = async () => {
@@ -18,6 +21,17 @@ function App() {
         }
     };
     fetchMovies();
+    }, []);
+
+    useEffect(() => {
+        const fetchActors = async () => {
+        const response = await fetch("/actors");
+        if (response.ok) {
+            const actors = await response.json();
+            setActors(actors);
+        }
+    };
+    fetchActors();
     }, []);
 
     async function handleAddMovie(movie) {
@@ -49,6 +63,22 @@ function App() {
         }
     }
 
+    async function handleAddActor(actor) {
+        if(actor.name == '' || actor.surname == ''){ alert("Both name and surname must be filled in!")}
+        else {
+            const response = await fetch('/actors', {
+                method: 'POST',
+                body: JSON.stringify(actor),
+                headers: {'Content-Type': 'application/json'}
+            });
+            if (response.ok) {
+                const newActor = await response.json();
+                setMovies([...actors, newActor]);
+                setAddingActor(false);
+            }
+        }
+    }
+
     return (
         <div className="container">
             <h1>My favourite movies to watch</h1>
@@ -58,10 +88,15 @@ function App() {
                               onDeleteMovie= {(movie) => handleDropMovie(movie)}
                 />}
             {addingMovie
-                ? <MovieForm onMovieSubmit={handleAddMovie}
+                ? <MovieForm actors={actors} onMovieSubmit={handleAddMovie}
                              buttonLabel="Add a movie"
                 />
                 : <button onClick={() => setAddingMovie(true)}>Add a movie</button>}
+            {addingActor
+                ? <ActorForm onActorSubmit={handleAddActor}
+                             buttonLabel="Add an actor"
+                />
+                : <button onClick={() => setAddingActor(true)}>Add an actor</button>}
         </div>
     );
 }
