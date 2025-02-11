@@ -86,7 +86,7 @@ function App() {
             });
             if (response.ok) {
                 const newActor = await response.json();
-                setMovies([...actors, newActor]);
+                setActors([...actors, newActor]);
                 setAddingActor(false);
             }
         }
