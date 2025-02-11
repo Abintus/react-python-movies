@@ -11,6 +11,8 @@ class PeeweeGetterDict(GetterDict):
             return list(res)
         return res
 
+class ActorMovie(BaseModel):
+    actor_id: int
 class ActorBase(BaseModel):
     name: str
     surname: str

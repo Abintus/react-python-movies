@@ -51,7 +51,7 @@ export default function MovieForm(props) {
         <div>
             <ActorsList
                 actors={props.actors}
-                onSelectActor={(actor, checked) => props.onSelectActor(actor, checked)}
+                onSelectActor={handleSelectActor}
             />
         </div>
         <button>{props.buttonLabel || 'Submit'}</button>

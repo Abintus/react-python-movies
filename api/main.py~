@@ -65,7 +65,7 @@ def add_movie_actor(movie_id: int, actor_id: int):
     models.ActorMovie.create(movie_id=movie_id, actor_id=actor_id)
     return {"message": "Movie-actor relationship created successfully"}
 
-@app.get("/movies/{movie_id}/actors", response_model=List[schemas.ActorMovie])
+@app.get("/movies/{movie_id}/actors")
 def get_movie_actors(movie_id: int):
     actors = models.ActorMovie.select().where(models.ActorMovie.movie_id == movie_id)
-    return list(actors)
+    return list(actors.id)

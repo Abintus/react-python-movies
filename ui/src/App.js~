@@ -49,8 +49,8 @@ function App() {
             const movieId = newMovie.id;
             // Create movie-actor relationships
             selectedActors.forEach(actor => {
-                console.log('actorId:', actor);
-                fetch(`/movies/${movieId}/actors?actor_id=${actor}`, {
+                console.log('actorId:', actor.id);
+                fetch(`/movies/${movieId}/actors?actor_id=${actor.id}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'}
                 })
